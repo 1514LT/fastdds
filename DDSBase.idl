@@ -1,5 +1,4 @@
 struct DDSBase
 {
-    unsigned long index;
-    string message;
+    string str_json;
 };

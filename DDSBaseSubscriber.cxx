@@ -133,7 +133,8 @@ void DDSBaseSubscriber::SubListener::on_data_available(
         {
             // Print your structure data here.
             ++samples;
-            std::cout << "Sample received, count=" << samples << std::endl;
+            
+            printf("RECV:%s,count:%d\n",st.str_json().c_str(),samples);
         }
     }
 }

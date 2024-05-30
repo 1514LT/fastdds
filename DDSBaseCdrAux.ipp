@@ -53,10 +53,7 @@ eProsima_user_DllExport size_t calculate_serialized_size(
 
 
         calculated_size += calculator.calculate_member_serialized_size(eprosima::fastcdr::MemberId(0),
-                data.index(), current_alignment);
-
-        calculated_size += calculator.calculate_member_serialized_size(eprosima::fastcdr::MemberId(1),
-                data.message(), current_alignment);
+                data.str_json(), current_alignment);
 
 
     calculated_size += calculator.end_calculate_type_serialized_size(previous_encoding, current_alignment);
@@ -76,8 +73,7 @@ eProsima_user_DllExport void serialize(
             eprosima::fastcdr::EncodingAlgorithmFlag::PLAIN_CDR);
 
     scdr
-        << eprosima::fastcdr::MemberId(0) << data.index()
-        << eprosima::fastcdr::MemberId(1) << data.message()
+        << eprosima::fastcdr::MemberId(0) << data.str_json()
 ;
     scdr.end_serialize_type(current_state);
 }
@@ -96,11 +92,7 @@ eProsima_user_DllExport void deserialize(
                 switch (mid.id)
                 {
                                         case 0:
-                                                dcdr >> data.index();
-                                            break;
-
-                                        case 1:
-                                                dcdr >> data.message();
+                                                dcdr >> data.str_json();
                                             break;
 
                     default:

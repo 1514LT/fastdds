@@ -32,7 +32,7 @@
 #include <fastcdr/cdr/fixed_size_string.hpp>
 #include <fastcdr/xcdr/external.hpp>
 #include <fastcdr/xcdr/optional.hpp>
-
+#include "dataProcess.hpp"
 
 
 #if defined(_WIN32)
@@ -131,55 +131,44 @@ public:
             const DDSBase& x) const;
 
     /*!
-     * @brief This function sets a value in member index
-     * @param _index New value for member index
+     * @brief This function copies the value in member str_json
+     * @param _str_json New value to be copied in member str_json
      */
-    eProsima_user_DllExport void index(
-            uint32_t _index);
+    eProsima_user_DllExport void str_json(
+            const std::string& _str_json);
 
     /*!
-     * @brief This function returns the value of member index
-     * @return Value of member index
+     * @brief This function moves the value in member str_json
+     * @param _str_json New value to be moved in member str_json
      */
-    eProsima_user_DllExport uint32_t index() const;
+    eProsima_user_DllExport void str_json(
+            std::string&& _str_json);
 
     /*!
-     * @brief This function returns a reference to member index
-     * @return Reference to member index
+     * @brief This function returns a constant reference to member str_json
+     * @return Constant reference to member str_json
      */
-    eProsima_user_DllExport uint32_t& index();
-
-
-    /*!
-     * @brief This function copies the value in member message
-     * @param _message New value to be copied in member message
-     */
-    eProsima_user_DllExport void message(
-            const std::string& _message);
+    eProsima_user_DllExport const std::string& str_json() const;
 
     /*!
-     * @brief This function moves the value in member message
-     * @param _message New value to be moved in member message
+     * @brief This function returns a reference to member str_json
+     * @return Reference to member str_json
      */
-    eProsima_user_DllExport void message(
-            std::string&& _message);
+    eProsima_user_DllExport std::string& str_json();
 
-    /*!
-     * @brief This function returns a constant reference to member message
-     * @return Constant reference to member message
-     */
-    eProsima_user_DllExport const std::string& message() const;
+public:
+  void setJson(Json::Value root);
+  Json::Value getJson();
 
-    /*!
-     * @brief This function returns a reference to member message
-     * @return Reference to member message
-     */
-    eProsima_user_DllExport std::string& message();
+  void setStrJson(Json::Value root);
+  std::string getStrJson();
+
+
 
 private:
 
-    uint32_t m_index{0};
-    std::string m_message;
+  Json::Value m_root;
+  std::string m_str_json;
 
 };
 

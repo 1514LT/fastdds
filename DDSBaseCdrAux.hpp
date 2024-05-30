@@ -23,8 +23,7 @@
 #define _FAST_DDS_GENERATED_DDSBASECDRAUX_HPP_
 
 #include "DDSBase.h"
-
-constexpr uint32_t DDSBase_max_cdr_typesize {268UL};
+constexpr uint32_t DDSBase_max_cdr_typesize {264UL};
 constexpr uint32_t DDSBase_max_key_cdr_typesize {0UL};
 
 

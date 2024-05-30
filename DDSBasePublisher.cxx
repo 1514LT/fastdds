@@ -145,6 +145,11 @@ void DDSBasePublisher::run()
     {
         if (ch == 'y')
         {
+            // st.str_json("LT");
+            Json::Value root;
+            root["index"] = msgsent;
+            root["info"] = "LT";
+            st.setStrJson(root);
             writer_->write(&st);
             ++msgsent;
             std::cout << "Sending sample, count=" << msgsent << ", send another sample?(y-yes,n-stop): ";

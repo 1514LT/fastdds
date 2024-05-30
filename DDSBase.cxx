@@ -50,23 +50,20 @@ DDSBase::~DDSBase()
 DDSBase::DDSBase(
         const DDSBase& x)
 {
-    m_index = x.m_index;
-    m_message = x.m_message;
+    m_str_json = x.m_str_json;
 }
 
 DDSBase::DDSBase(
         DDSBase&& x) noexcept
 {
-    m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_str_json = std::move(x.m_str_json);
 }
 
 DDSBase& DDSBase::operator =(
         const DDSBase& x)
 {
 
-    m_index = x.m_index;
-    m_message = x.m_message;
+    m_str_json = x.m_str_json;
     return *this;
 }
 
@@ -74,16 +71,14 @@ DDSBase& DDSBase::operator =(
         DDSBase&& x) noexcept
 {
 
-    m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_str_json = std::move(x.m_str_json);
     return *this;
 }
 
 bool DDSBase::operator ==(
         const DDSBase& x) const
 {
-    return (m_index == x.m_index &&
-           m_message == x.m_message);
+    return (m_str_json == x.m_str_json);
 }
 
 bool DDSBase::operator !=(
@@ -93,73 +88,69 @@ bool DDSBase::operator !=(
 }
 
 /*!
- * @brief This function sets a value in member index
- * @param _index New value for member index
+ * @brief This function copies the value in member str_json
+ * @param _str_json New value to be copied in member str_json
  */
-void DDSBase::index(
-        uint32_t _index)
+void DDSBase::str_json(
+        const std::string& _str_json)
 {
-    m_index = _index;
+    m_str_json = _str_json;
 }
 
 /*!
- * @brief This function returns the value of member index
- * @return Value of member index
+ * @brief This function moves the value in member str_json
+ * @param _str_json New value to be moved in member str_json
  */
-uint32_t DDSBase::index() const
+void DDSBase::str_json(
+        std::string&& _str_json)
 {
-    return m_index;
+    m_str_json = std::move(_str_json);
 }
 
 /*!
- * @brief This function returns a reference to member index
- * @return Reference to member index
+ * @brief This function returns a constant reference to member str_json
+ * @return Constant reference to member str_json
  */
-uint32_t& DDSBase::index()
+const std::string& DDSBase::str_json() const
 {
-    return m_index;
-}
-
-
-/*!
- * @brief This function copies the value in member message
- * @param _message New value to be copied in member message
- */
-void DDSBase::message(
-        const std::string& _message)
-{
-    m_message = _message;
+    return m_str_json;
 }
 
 /*!
- * @brief This function moves the value in member message
- * @param _message New value to be moved in member message
+ * @brief This function returns a reference to member str_json
+ * @return Reference to member str_json
  */
-void DDSBase::message(
-        std::string&& _message)
+std::string& DDSBase::str_json()
 {
-    m_message = std::move(_message);
+    return m_str_json;
 }
 
-/*!
- * @brief This function returns a constant reference to member message
- * @return Constant reference to member message
- */
-const std::string& DDSBase::message() const
+void DDSBase::setJson(Json::Value root)
 {
-    return m_message;
+  m_root = root;
+}
+Json::Value DDSBase::getJson()
+{
+  return m_root;
 }
 
-/*!
- * @brief This function returns a reference to member message
- * @return Reference to member message
- */
-std::string& DDSBase::message()
+void DDSBase::setStrJson(Json::Value root)
 {
-    return m_message;
+  try
+  {
+    std::string tmp = JRLC::JsonToString(root);
+    m_str_json = tmp;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+  }
+  
 }
-
-
+std::string DDSBase::getStrJson()
+{
+  return m_str_json;
+}
 // Include auxiliary functions like for serializing/deserializing.
 #include "DDSBaseCdrAux.ipp"
 
