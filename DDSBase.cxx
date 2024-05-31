@@ -151,6 +151,55 @@ std::string DDSBase::getStrJson()
 {
   return m_str_json;
 }
+
+sqlite3* DDSBase::getDB(std::string name)
+{
+  bool falg = false;
+  for(auto db:m_DBMap)
+  {
+    if(db.first == name)
+    {
+      falg = true;
+    }
+  }
+  if(falg)
+    return m_DBMap[name];
+  return nullptr;
+}
+
+void DDSBase::setDB(std::string name)
+{
+  sqlite3* DB;
+  int exit = 0;
+  exit = sqlite3_open(name.c_str(), &DB);
+  if (exit) 
+  {
+    std::cerr << "Cannot open database: " << sqlite3_errmsg(DB);
+  }
+  else
+  {
+    std::cout << "Opened database successfully" << std::endl;
+    m_DBMap[name] = DB;
+  }
+}
+
+int DDSBase::sqliteExec(std::string nameDB,std::string cmd)
+{
+  int exit = 0;
+  char* messageError;
+  sqlite3* DB = getDB(nameDB);
+  exit = sqlite3_exec(DB, cmd.c_str(), NULL, 0, &messageError);
+  if (exit != SQLITE_OK)
+  {
+    std::cerr << "Error Create Table" << std::endl;
+    sqlite3_free(messageError);
+  }
+  else
+  {
+    std::cout << "Table created Successfully" << std::endl; 
+  }
+  return exit;  
+}
 // Include auxiliary functions like for serializing/deserializing.
 #include "DDSBaseCdrAux.ipp"
 

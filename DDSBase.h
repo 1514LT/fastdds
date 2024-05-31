@@ -33,6 +33,7 @@
 #include <fastcdr/xcdr/external.hpp>
 #include <fastcdr/xcdr/optional.hpp>
 #include "dataProcess.hpp"
+#include "sqlite3/sqlite3.h"
 
 
 #if defined(_WIN32)
@@ -163,12 +164,15 @@ public:
   void setStrJson(Json::Value root);
   std::string getStrJson();
 
-
-
+public:
+  sqlite3* getDB(std::string name);
+  void setDB(std::string name);
+  int sqliteExec(std::string nameDB,std::string cmd);
 private:
 
   Json::Value m_root;
   std::string m_str_json;
+  std::map<std::string,sqlite3*> m_DBMap;
 
 };
 

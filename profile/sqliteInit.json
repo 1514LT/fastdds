@@ -1,0 +1,7 @@
+{
+  "nameDB":"LT.db",
+  "tableName":"Data",
+  "rule":[
+          {"ID":"INTEGER PRIMARY KEY"},{"MESSAGE":"TEXT NOT NULL"}
+         ]
+}

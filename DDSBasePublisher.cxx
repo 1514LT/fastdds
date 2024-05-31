@@ -127,6 +127,7 @@ void DDSBasePublisher::PubListener::on_publication_matched(
 
 void DDSBasePublisher::run()
 {
+    DDSBase st;
     std::cout << "DDSBase DataWriter waiting for DataReaders." << std::endl;
     while (listener_.matched == 0)
     {
@@ -135,33 +136,24 @@ void DDSBasePublisher::run()
 
     // Publication code
 
-    DDSBase st;
 
     /* Initialize your structure here */
-
+    
     int msgsent = 0;
-    char ch = 'y';
-    do
+    for (int i=0;i<10;i++)
     {
-        if (ch == 'y')
-        {
-            // st.str_json("LT");
-            Json::Value root;
-            root["index"] = msgsent;
-            root["info"] = "LT";
-            st.setStrJson(root);
-            writer_->write(&st);
-            ++msgsent;
-            std::cout << "Sending sample, count=" << msgsent << ", send another sample?(y-yes,n-stop): ";
-        }
-        else if (ch == 'n')
-        {
-            std::cout << "Stopping execution " << std::endl;
-            break;
-        }
-        else
-        {
-            std::cout << "Command " << ch << " not recognized, please enter \"y/n\":";
-        }
-    } while (std::cin >> ch);
+      Json::Value root;
+      root["index"] = msgsent;
+      root["info"] = "LT";
+      st.setStrJson(root);
+      // std::cout << "write start:" <<msgsent << JRLC::microsecondsToDateTime(JRLC::getCurrentTimeMicro()) << std::endl;
+      writer_->write(&st);
+      // std::cout << "write end:" <<msgsent << JRLC::microsecondsToDateTime(JRLC::getCurrentTimeMicro()) << std::endl;
+      // std::string cmd = "INSERT INTO Data (MESSAGE) VALUES (\'" + root["info"].asString() + "\');";
+      // st.sqliteExec("LT.db",cmd);
+      ++msgsent;
+      printf("send Msg:%s\n",JRLC::JsonToString(root).c_str());
+      // std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
+    std::cout << "Stopping execution " << std::endl;
 }
