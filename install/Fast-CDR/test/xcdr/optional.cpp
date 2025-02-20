@@ -172,7 +172,6 @@ void serialize_optional(
         cdr << MemberId(1) << opt_value;
     }
     cdr.end_serialize_type(enc_state);
-    cdr.set_dds_cdr_options({0, 0});
     Cdr::state enc_state_end(cdr);
     //}
 
@@ -259,7 +258,6 @@ void null_align_serialize_optional(
         cdr << MemberId(0) << align_value << MemberId(1) << opt_value;
     }
     cdr.end_serialize_type(enc_state);
-    cdr.set_dds_cdr_options({0, 0});
     Cdr::state enc_state_end(cdr);
     //}
 
@@ -364,7 +362,6 @@ void align_serialize_optional(
         cdr << MemberId(0) << align_value << MemberId(1) << opt_value;
     }
     cdr.end_serialize_type(enc_state);
-    cdr.set_dds_cdr_options({0, 0});
     Cdr::state enc_state_end(cdr);
     //}
 
@@ -473,7 +470,6 @@ void longdouble_align_serialize_optional(
         cdr << MemberId(0) << align_value << MemberId(1) << opt_value;
     }
     cdr.end_serialize_type(enc_state);
-    cdr.set_dds_cdr_options({0, 0});
     Cdr::state enc_state_end(cdr);
     //}
 
@@ -592,23 +588,23 @@ TEST_P(XCdrOptionalTest, null_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x03, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x03, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x03, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x01, // DHEADER
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x03, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x00, 0x00, // DHEADER
         0x00                    // Not present
     };
@@ -655,7 +651,6 @@ TEST_P(XCdrOptionalTest, null_optional)
         cdr.begin_serialize_type(enc_state, encoding);
         cdr.serialize_member(MemberId(1), opt_value);
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -706,7 +701,6 @@ TEST_P(XCdrOptionalTest, null_optional)
         cdr.begin_serialize_type(enc_state, encoding);
         cdr << MemberId(1) << opt_value;
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -762,13 +756,13 @@ TEST_P(XCdrOptionalTest, short_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // Short
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // Short
     };
@@ -816,14 +810,14 @@ TEST_P(XCdrOptionalTest, short_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         0x10, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         ival, fval              // Short
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fval, ival              // Short
@@ -858,13 +852,13 @@ TEST_P(XCdrOptionalTest, ushort_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // UShort
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // UShort
     };
@@ -912,14 +906,14 @@ TEST_P(XCdrOptionalTest, ushort_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         0x10, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         ival, fval              // UShort
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fval, ival              // UShort
@@ -1694,7 +1688,6 @@ TEST_P(XCdrOptionalTest, longdouble_optional)
         cdr.begin_serialize_type(enc_state, encoding);
         cdr.serialize_member(MemberId(1), opt_value);
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -1754,7 +1747,6 @@ TEST_P(XCdrOptionalTest, longdouble_optional)
         cdr.begin_serialize_type(enc_state, encoding);
         cdr << MemberId(1) << opt_value;
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -1816,13 +1808,13 @@ TEST_P(XCdrOptionalTest, boolean_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         b_value                 // Boolean
     };
@@ -1844,40 +1836,40 @@ TEST_P(XCdrOptionalTest, boolean_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x02, // DHEADER
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x02, 0x00, 0x00, 0x00, // DHEADER
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x05, // DHEADER
         0x00, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x05, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         b_value                 // Boolean
@@ -1910,13 +1902,13 @@ TEST_P(XCdrOptionalTest, octet_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         octet_value             // Octet
     };
@@ -1938,40 +1930,40 @@ TEST_P(XCdrOptionalTest, octet_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x02, // DHEADER
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x02, 0x00, 0x00, 0x00, // DHEADER
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x05, // DHEADER
         0x00, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x05, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         octet_value             // Octet
@@ -2005,13 +1997,13 @@ TEST_P(XCdrOptionalTest, char_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         valu                    // Char
     };
@@ -2033,40 +2025,40 @@ TEST_P(XCdrOptionalTest, char_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x02, // DHEADER
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x02, 0x00, 0x00, 0x00, // DHEADER
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x05, // DHEADER
         0x00, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x05, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         valu                    // Char
@@ -2101,13 +2093,13 @@ TEST_P(XCdrOptionalTest, wchar_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // Wchar
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // Wchar
     };
@@ -2159,14 +2151,14 @@ TEST_P(XCdrOptionalTest, wchar_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         0x10, 0x00, 0x00, 0x01, // EMHEADER1(M) without NEXTINT
         ival, fval              // Wchar
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fval, ival              // Wchar
@@ -2230,40 +2222,40 @@ TEST_P(XCdrOptionalTest, null_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         align_value,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         align_value,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x02, // DHEADER
         align_value,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x02, 0x00, 0x00, 0x00, // DHEADER
         align_value,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x05, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x05, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value
@@ -2330,40 +2322,40 @@ TEST_P(XCdrOptionalTest, null_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x01, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         ival, fval,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x01, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fval, ival,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x01, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x03, // DHEADER
         ival, fval,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x01, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x03, 0x00, 0x00, 0x00, // DHEADER
         fval, ival,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         ival, fval
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fval, ival
@@ -2425,26 +2417,26 @@ TEST_P(XCdrOptionalTest, null_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x03, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         ival, ival, ival, fval,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x03, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fval, ival, ival, ival,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x03, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x05, // DHEADER
         ival, ival, ival, fval,
         0x00                    // Not present
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x03, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x05, 0x00, 0x00, 0x00, // DHEADER
         fval, ival, ival, ival,
         0x00                    // Not present
@@ -2495,7 +2487,7 @@ TEST_P(XCdrOptionalTest, short_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -2503,7 +2495,7 @@ TEST_P(XCdrOptionalTest, short_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -2563,7 +2555,7 @@ TEST_P(XCdrOptionalTest, short_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -2573,7 +2565,7 @@ TEST_P(XCdrOptionalTest, short_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -2614,7 +2606,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -2622,7 +2614,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -2652,7 +2644,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -2660,7 +2652,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -2668,7 +2660,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, fava,
         0x01,                   // Present
@@ -2677,7 +2669,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava,
         0x01,                   // Present
@@ -2686,7 +2678,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -2696,7 +2688,7 @@ TEST_P(XCdrOptionalTest, short_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -2738,14 +2730,14 @@ TEST_P(XCdrOptionalTest, short_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // Short
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // Short
@@ -2806,7 +2798,7 @@ TEST_P(XCdrOptionalTest, short_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -2815,7 +2807,7 @@ TEST_P(XCdrOptionalTest, short_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -2854,7 +2846,7 @@ TEST_P(XCdrOptionalTest, ushort_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -2862,7 +2854,7 @@ TEST_P(XCdrOptionalTest, ushort_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -2922,7 +2914,7 @@ TEST_P(XCdrOptionalTest, ushort_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -2932,7 +2924,7 @@ TEST_P(XCdrOptionalTest, ushort_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -2974,7 +2966,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -2982,7 +2974,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -3012,7 +3004,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -3020,7 +3012,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -3028,7 +3020,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, fava,
         0x01,                   // Present
@@ -3037,7 +3029,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava,
         0x01,                   // Present
@@ -3046,7 +3038,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -3056,7 +3048,7 @@ TEST_P(XCdrOptionalTest, ushort_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -3098,14 +3090,14 @@ TEST_P(XCdrOptionalTest, ushort_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // UShort
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // UShort
@@ -3166,7 +3158,7 @@ TEST_P(XCdrOptionalTest, ushort_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -3175,7 +3167,7 @@ TEST_P(XCdrOptionalTest, ushort_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -5875,7 +5867,7 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -5883,7 +5875,7 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -5913,21 +5905,21 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x01, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x01, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x01, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x03, // DHEADER
         align_value,
         0x01,                   // Present
@@ -5935,7 +5927,7 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x01, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x03, 0x00, 0x00, 0x00, // DHEADER
         align_value,
         0x01,                   // Present
@@ -5943,7 +5935,7 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -5953,7 +5945,7 @@ TEST_P(XCdrOptionalTest, boolean_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -5994,7 +5986,7 @@ TEST_P(XCdrOptionalTest, boolean_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -6002,7 +5994,7 @@ TEST_P(XCdrOptionalTest, boolean_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -6062,7 +6054,7 @@ TEST_P(XCdrOptionalTest, boolean_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -6072,7 +6064,7 @@ TEST_P(XCdrOptionalTest, boolean_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -6113,14 +6105,14 @@ TEST_P(XCdrOptionalTest, boolean_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         b_value                 // Boolean
@@ -6147,21 +6139,21 @@ TEST_P(XCdrOptionalTest, boolean_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01,                   // Present
         b_value                 // Boolean
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, iava, iava, fava,
         0x01,                   // Present
@@ -6169,7 +6161,7 @@ TEST_P(XCdrOptionalTest, boolean_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava, iava, iava,
         0x01,                   // Present
@@ -6177,7 +6169,7 @@ TEST_P(XCdrOptionalTest, boolean_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -6186,7 +6178,7 @@ TEST_P(XCdrOptionalTest, boolean_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -6223,7 +6215,7 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -6231,7 +6223,7 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -6261,21 +6253,21 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x01, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x01, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x01, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x03, // DHEADER
         align_value,
         0x01,                   // Present
@@ -6283,7 +6275,7 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x01, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x03, 0x00, 0x00, 0x00, // DHEADER
         align_value,
         0x01,                   // Present
@@ -6291,7 +6283,7 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -6301,7 +6293,7 @@ TEST_P(XCdrOptionalTest, octet_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -6341,7 +6333,7 @@ TEST_P(XCdrOptionalTest, octet_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -6349,7 +6341,7 @@ TEST_P(XCdrOptionalTest, octet_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -6409,7 +6401,7 @@ TEST_P(XCdrOptionalTest, octet_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -6419,7 +6411,7 @@ TEST_P(XCdrOptionalTest, octet_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -6459,14 +6451,14 @@ TEST_P(XCdrOptionalTest, octet_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         octet_value             // Octet
@@ -6493,21 +6485,21 @@ TEST_P(XCdrOptionalTest, octet_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01,                   // Present
         octet_value             // Octet
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, iava, iava, fava,
         0x01,                   // Present
@@ -6515,7 +6507,7 @@ TEST_P(XCdrOptionalTest, octet_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava, iava, iava,
         0x01,                   // Present
@@ -6523,7 +6515,7 @@ TEST_P(XCdrOptionalTest, octet_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -6532,7 +6524,7 @@ TEST_P(XCdrOptionalTest, octet_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -6570,7 +6562,7 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -6578,7 +6570,7 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -6608,21 +6600,21 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x01, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x01, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         align_value,
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x01, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x03, // DHEADER
         align_value,
         0x01,                   // Present
@@ -6630,7 +6622,7 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x01, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x03, 0x00, 0x00, 0x00, // DHEADER
         align_value,
         0x01,                   // Present
@@ -6638,7 +6630,7 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -6648,7 +6640,7 @@ TEST_P(XCdrOptionalTest, char_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -6689,7 +6681,7 @@ TEST_P(XCdrOptionalTest, char_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
@@ -6697,7 +6689,7 @@ TEST_P(XCdrOptionalTest, char_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
@@ -6757,7 +6749,7 @@ TEST_P(XCdrOptionalTest, char_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -6767,7 +6759,7 @@ TEST_P(XCdrOptionalTest, char_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -6808,14 +6800,14 @@ TEST_P(XCdrOptionalTest, char_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x03, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x01, // ShortMemberHeader
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x03, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x01, 0x00, // ShortMemberHeader
         valu                    // Char
@@ -6842,21 +6834,21 @@ TEST_P(XCdrOptionalTest, char_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01,                   // Present
         valu                    // Char
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, iava, iava, fava,
         0x01,                   // Present
@@ -6864,7 +6856,7 @@ TEST_P(XCdrOptionalTest, char_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava, iava, iava,
         0x01,                   // Present
@@ -6872,7 +6864,7 @@ TEST_P(XCdrOptionalTest, char_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x03, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0D, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -6881,7 +6873,7 @@ TEST_P(XCdrOptionalTest, char_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x03, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0D, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -6920,7 +6912,7 @@ TEST_P(XCdrOptionalTest, wchar_align_1_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -6928,7 +6920,7 @@ TEST_P(XCdrOptionalTest, wchar_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         align_value,
         0x00, 0x00, 0x00,       // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -6988,7 +6980,7 @@ TEST_P(XCdrOptionalTest, wchar_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -6998,7 +6990,7 @@ TEST_P(XCdrOptionalTest, wchar_align_1_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         align_value,
@@ -7040,7 +7032,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x00, 0x00,             // Alignment
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
@@ -7048,7 +7040,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x00, 0x00,             // Alignment
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
@@ -7078,7 +7070,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x06, 0x00, 0x02, // Encapsulation
+        0x00, 0x06, 0x00, 0x00, // Encapsulation
         iava, fava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -7086,7 +7078,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x07, 0x00, 0x02, // Encapsulation
+        0x00, 0x07, 0x00, 0x00, // Encapsulation
         fava, iava,
         0x01,                   // Present
         0x00,                   // Alignment
@@ -7094,7 +7086,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x02, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x06, // DHEADER
         iava, fava,
         0x01,                   // Present
@@ -7103,7 +7095,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x02, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x06, 0x00, 0x00, 0x00, // DHEADER
         fava, iava,
         0x01,                   // Present
@@ -7112,7 +7104,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x10, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, fava,
@@ -7122,7 +7114,7 @@ TEST_P(XCdrOptionalTest, wchar_align_2_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x10, // EMHEADER1(M) without NEXTINT
         fava, iava,
@@ -7164,14 +7156,14 @@ TEST_P(XCdrOptionalTest, wchar_align_4_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         iava, iava, iava, fava,
         0x00, 0x01, 0x00, 0x02, // ShortMemberHeader
         ival, fval              // WChar
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         fava, iava, iava, iava,
         0x01, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival              // WChar
@@ -7232,7 +7224,7 @@ TEST_P(XCdrOptionalTest, wchar_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x0E, // DHEADER
         0x20, 0x00, 0x00, 0x00, // EMHEADER1(M) without NEXTINT
         iava, iava, iava, fava,
@@ -7241,7 +7233,7 @@ TEST_P(XCdrOptionalTest, wchar_align_4_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x0E, 0x00, 0x00, 0x00, // DHEADER
         0x00, 0x00, 0x00, 0x20, // EMHEADER1(M) without NEXTINT
         fava, iava, iava, iava,
@@ -7332,7 +7324,7 @@ TEST_P(XCdrOptionalTest, two_inner_null_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x08, 0x00, 0x03, // Encapsulation
+        0x00, 0x08, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x11, // DHEADER
         0x01,                   // Present
         0x00, 0x00, 0x00,       // Alignment
@@ -7345,7 +7337,7 @@ TEST_P(XCdrOptionalTest, two_inner_null_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::DELIMIT_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x09, 0x00, 0x03, // Encapsulation
+        0x00, 0x09, 0x00, 0x00, // Encapsulation
         0x11, 0x00, 0x00, 0x00, // DHEADER
         0x01,                   // Present
         0x00, 0x00, 0x00,       // Alignment
@@ -7408,7 +7400,6 @@ TEST_P(XCdrOptionalTest, two_inner_null_optional)
         cdr.serialize_member(MemberId(1), opt_value);
         cdr.serialize_member(MemberId(3), opt_value);
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -7491,7 +7482,6 @@ TEST_P(XCdrOptionalTest, two_inner_null_optional)
         cdr << MemberId(1) << opt_value;
         cdr << MemberId(3) << opt_value;
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -7585,7 +7575,7 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
     XCdrStreamValues expected_streams;
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x00, 0x00, 0x02, // Encapsulation
+        0x00, 0x00, 0x00, 0x00, // Encapsulation
         0x00, 0x01, 0x00, 0x06, // ShortMemberHeader
         0x00, 0x03, 0x00, 0x02, // ShortMemberHeader
         ival, fval,             // Short
@@ -7596,7 +7586,7 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PLAIN_CDR + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x01, 0x00, 0x02, // Encapsulation
+        0x00, 0x01, 0x00, 0x00, // Encapsulation
         0x01, 0x00, 0x06, 0x00, // ShortMemberHeader
         0x03, 0x00, 0x02, 0x00, // ShortMemberHeader
         fval, ival,             // Short
@@ -7691,7 +7681,7 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::BIG_ENDIANNESS] =
     {
-        0x00, 0x0A, 0x00, 0x02, // Encapsulation
+        0x00, 0x0A, 0x00, 0x00, // Encapsulation
         0x00, 0x00, 0x00, 0x1E, // DHEADER
         0x50, 0x00, 0x00, 0x01, // EMHEADER1(M) with NEXTINT
         0x00, 0x00, 0x00, 0x06, // NEXTINT + DHEADER
@@ -7705,7 +7695,7 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
     };
     expected_streams[0 + EncodingAlgorithmFlag::PL_CDR2 + Cdr::Endianness::LITTLE_ENDIANNESS] =
     {
-        0x00, 0x0B, 0x00, 0x02, // Encapsulation
+        0x00, 0x0B, 0x00, 0x00, // Encapsulation
         0x1E, 0x00, 0x00, 0x00, // DHEADER
         0x01, 0x00, 0x00, 0x50, // EMHEADER1(M) with NEXTINT
         0x06, 0x00, 0x00, 0x00, // NEXTINT + DHEADER
@@ -7751,7 +7741,6 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
         cdr.serialize_member(MemberId(1), opt_value);
         cdr.serialize_member(MemberId(3), opt_value);
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 
@@ -7834,7 +7823,6 @@ TEST_P(XCdrOptionalTest, two_inner_short_optional)
         cdr << MemberId(1) << opt_value;
         cdr << MemberId(3) << opt_value;
         cdr.end_serialize_type(enc_state);
-        cdr.set_dds_cdr_options({0, 0});
         Cdr::state enc_state_end(cdr);
         //}
 

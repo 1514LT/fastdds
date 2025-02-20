@@ -35,7 +35,7 @@ endif()
 ###############################################################################
 # Project                                                                     #
 ###############################################################################
-project(fastcdr VERSION 2.2.6 LANGUAGES CXX)
+project(fastcdr VERSION 2.2.0 LANGUAGES CXX)
 
 set(PROJECT_NAME_STYLED "FastCDR")
 set(PROJECT_NAME_LARGE "Fast CDR")
@@ -132,11 +132,7 @@ enable_testing()
 include(CTest)
 
 if (BUILD_TESTING)
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.22)
-        add_subdirectory(test)
-    else()
-        message(INFO "Tests are disabled because the version of CMake is less than 3.22")
-    endif()
+    add_subdirectory(test)
 endif()
 
 ###############################################################################

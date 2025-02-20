@@ -1,4 +1,4 @@
-# v2.0.0
+# v2.2.0
 
 * Support of Extended CDR Representation: encoding versions 1 and 2.
 

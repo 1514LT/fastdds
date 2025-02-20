@@ -60,7 +60,7 @@ target_compile_definitions(${PROJECT_NAME}
     INTERFACE
     $<$<BOOL:${WIN32}>:${PROJECT_NAME_UPPER}_NO_LIB>
     PUBLIC
-    $<$<TARGET_EXISTS:${PROJECT_NAME}>:$<$<STREQUAL:$<TARGET_PROPERTY:${PROJECT_NAME},TYPE>,SHARED_LIBRARY>:${PROJECT_NAME_UPPER}_DYN_LINK>>
+    $<$<STREQUAL:$<TARGET_PROPERTY:${PROJECT_NAME},TYPE>,SHARED_LIBRARY>:${PROJECT_NAME_UPPER}_DYN_LINK>
     )
 
 # Define public headers
@@ -173,9 +173,9 @@ endif()
 include(CMakePackageConfigHelpers)
 
 if(BUILD_SHARED_LIBS)
-    set(FASTCDR_PACKAGE_OPT_BIN_DIR_CONDITION "if(MSVC OR MSVC_IDE)")
+    set(FASTRTPS_PACKAGE_OPT_BIN_DIR_CONDITION "if(MSVC OR MSVC_IDE)")
 else()
-    set(FASTCDR_PACKAGE_OPT_BIN_DIR_CONDITION "if(0)")
+    set(FASTRTPS_PACKAGE_OPT_BIN_DIR_CONDITION "if(0)")
 endif()
 
 configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/packaging/Config.cmake.in

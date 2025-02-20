@@ -25,6 +25,8 @@
 
 #include <gtest/gtest.h>
 
+#define EXPECT_LONG_DOUBLE_EQ(val1, val2) (val1 == val2)
+
 using namespace eprosima::fastcdr;
 using namespace ::exception;
 
@@ -190,13 +192,6 @@ static void EXPECT_ARRAY_DOUBLE_EQ(
     {
         EXPECT_DOUBLE_EQ(array1[count], array2[count]);
     }
-}
-
-static void EXPECT_LONG_DOUBLE_EQ(
-        const long double val1,
-        const long double val2)
-{
-    EXPECT_TRUE(val1 == val2);
 }
 
 static void EXPECT_ARRAY_LONG_DOUBLE_EQ(
@@ -2249,35 +2244,6 @@ TEST(CDRTests, Complete)
     free(ldouble_seq_value);
     free(c_string_value);
     free(c_wstring_value);
-}
-
-// Regression test for Fast DDS issue #5136
-// A non-empty map should be cleared before deserializing in XCDRv1
-TEST(CDRTests, DeserializeIntoANonEmptyMapInXCDRv1)
-{
-    char buffer[14] =
-    {
-        0x00, 0x00, 0x00, 0x01,  // Map length
-        0x00, 0x02,              // Key
-        0x00, 0x00,              // Alignment
-        0x00, 0x00, 0x00, 0x01,  // Length
-        65,  0x00                // 'A'
-    };
-
-    std::map<uint16_t, std::string> initialized_map{
-        {1, "a"}
-    };
-
-    FastBuffer cdr_buffer(buffer, 14);
-    Cdr cdr_ser_map(
-        cdr_buffer,
-        eprosima::fastcdr::Cdr::Endianness::BIG_ENDIANNESS,
-        XCDRv1);
-
-    // Deserialization in a non-empty map
-    cdr_ser_map >> initialized_map;
-    ASSERT_EQ(initialized_map.size(), 1u);
-    ASSERT_EQ(initialized_map.at(2), "A");
 }
 
 TEST(FastCDRTests, Octet)
@@ -7080,60 +7046,4 @@ TEST(FastCDRTests, ZeroSequenceAtTheEnd)
     {
         cdr_des_bool >> value >> bool_zero_sequence;
     });
-}
-
-TEST(CDRTests, StringWithNullChars)
-{
-    std::string str{ "Hello World" };
-    str[5] = '\0';
-    char buffer[256];
-    FastBuffer cdrbuffer(buffer, 256);
-    Cdr cdr_ser(cdrbuffer);
-
-    EXPECT_THROW(
-    {
-        cdr_ser << str;
-    },
-        BadParamException);
-}
-
-TEST(FastCDRTests, StringWithNullChars)
-{
-    std::string str{ "Hello World" };
-    str[5] = '\0';
-    char buffer[256];
-    FastBuffer cdrbuffer(buffer, 256);
-    FastCdr cdr_ser(cdrbuffer);
-
-    EXPECT_THROW(
-    {
-        cdr_ser << str;
-    },
-        BadParamException);
-}
-
-TEST(CDRTests, EmptyStringSerializationSize)
-{
-    std::string str;
-    char buffer[256];
-    FastBuffer cdrbuffer(buffer, 256);
-    Cdr cdr_ser(cdrbuffer);
-    EXPECT_NO_THROW(
-    {
-        cdr_ser << str;
-    });
-    EXPECT_EQ(cdr_ser.get_serialized_data_length(), 5u);
-}
-
-TEST(FastCDRTests, EmptyStringSerializationSize)
-{
-    std::string str;
-    char buffer[256];
-    FastBuffer cdrbuffer(buffer, 256);
-    FastCdr cdr_ser(cdrbuffer);
-    EXPECT_NO_THROW(
-    {
-        cdr_ser << str;
-    });
-    EXPECT_EQ(cdr_ser.get_serialized_data_length(), 5u);
 }
